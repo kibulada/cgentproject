@@ -1,0 +1,24 @@
+.docs {
+  padding-top: 80px;
+}
+
+.docs-hero {
+  min-height: 50vh;
+  background: linear-gradient(45deg, #1a1a1a, #2a2a2a);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  color: white;
+  padding: 2rem;
+}
+
+.docs-content {
+  padding: 4rem 2rem;
+}
+
+.docs-container {
+  max-width: 1200px;
+  margin: 0 auto;
+} 

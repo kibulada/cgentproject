@@ -1,0 +1,1137 @@
+.superswarm {
+  padding-top: 80px;
+  min-height: 100vh;
+  background: var(--dark-bg);
+  color: white;
+}
+
+/* Hero Section */
+.superswarm-hero {
+  min-height: 60vh;
+  padding: 8rem 4rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  position: relative;
+  background: linear-gradient(
+    135deg,
+    rgba(0, 18, 32, 0.95),
+    rgba(0, 28, 48, 0.95)
+  );
+}
+
+.superswarm-hero h1 {
+  font-size: 4.5rem;
+  line-height: 1.1;
+  margin-bottom: 2rem;
+  background: linear-gradient(45deg, #007bff, #00ff88);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.superswarm-hero p {
+  font-size: 1.2rem;
+  line-height: 1.8;
+  color: #a0a0a0;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+/* Agents Section */
+.agents-section {
+  padding: 4rem;
+  min-height: 40vh;
+}
+
+.agents-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 1rem;
+  background: rgba(0, 123, 255, 0.05);
+  border-radius: 20px;
+  border: 1px solid rgba(0, 123, 255, 0.1);
+  backdrop-filter: blur(10px);
+}
+
+.agents-container h2 {
+  font-size: 2.5rem;
+  margin-bottom: 2rem;
+  color: #007bff;
+}
+
+.wallet-connect {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2rem;
+  padding: 3rem;
+}
+
+.wallet-connect p {
+  color: #a0a0a0;
+  font-size: 1.1rem;
+}
+
+.wallet-actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+.register-btn {
+  padding: 0.8rem 1.5rem;
+  background: linear-gradient(45deg, #007bff, #00ff88);
+  border: none;
+  border-radius: 8px;
+  color: white;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-family: monospace;
+  font-size: 1rem;
+}
+
+.register-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 123, 255, 0.3);
+}
+
+.disconnect-btn {
+  padding: 0.8rem 1.5rem;
+  background: rgba(255, 59, 48, 0.1);
+  border: 1px solid rgba(255, 59, 48, 0.2);
+  border-radius: 8px;
+  color: #ff3b30;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  position: relative;
+  font-family: monospace;
+  font-size: 1rem;
+}
+
+.disconnect-btn:hover {
+  background: rgba(255, 59, 48, 0.2);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(255, 59, 48, 0.2);
+}
+
+.wallet-address {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  margin-top: 0.5rem;
+  padding: 0.5rem 1rem;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 20px;
+  color: #888;
+  font-family: monospace;
+  font-size: 0.9rem;
+  backdrop-filter: blur(5px);
+}
+
+/* Screen Warning */
+.screen-warning {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 18, 32, 0.98);
+  z-index: 1000;
+  padding: 2rem;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.screen-warning p {
+  color: white;
+  font-size: 1.2rem;
+  max-width: 600px;
+  line-height: 1.6;
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+  .superswarm-hero {
+    padding: 6rem 2rem;
+  }
+
+  .superswarm-hero h1 {
+    font-size: 3.5rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .screen-warning {
+    display: flex;
+  }
+
+  .superswarm-hero h1 {
+    font-size: 2.5rem;
+  }
+
+  .agents-section {
+    padding: 2rem;
+  }
+}
+
+.header-actions {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  margin-bottom: 1rem;
+  padding: 0.5rem;
+  text-align: center;
+}
+
+.header-actions h2 {
+  background: linear-gradient(45deg, #007bff, #00ff88);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-size: 2.5rem;
+  margin: 0;
+}
+
+.agents-table {
+  width: 100%;
+  background: rgba(0, 0, 0, 0.3);
+  border-radius: 12px;
+  overflow: hidden;
+  margin-top: 0.5rem;
+}
+
+.table-header {
+  display: grid;
+  grid-template-columns: 1.2fr 1.2fr 2fr 1fr 0.8fr 0.8fr 1.2fr;
+  padding: 0.75rem;
+  background: rgba(255, 255, 255, 0.05);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.header-cell {
+  color: #888;
+  font-size: 0.9rem;
+  padding: 0 1rem;
+  display: flex;
+  align-items: center;
+}
+
+.table-content {
+  width: 100%;
+}
+
+.table-row {
+  display: grid;
+  grid-template-columns: 1.2fr 1.2fr 2fr 1fr 0.8fr 0.8fr 1.2fr;
+  padding: 0.75rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  align-items: center;
+  transition: background-color 0.2s ease;
+}
+
+.cell {
+  padding: 0 1rem;
+  color: #fff;
+  display: flex;
+  align-items: center;
+}
+
+.name-cell {
+  font-weight: 500;
+}
+
+.key-cell {
+  font-family: monospace;
+  color: #888;
+}
+
+.capabilities-cell {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.capability-tag {
+  padding: 0.4rem 0.8rem;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 20px;
+  font-size: 0.85rem;
+  white-space: nowrap;
+}
+
+.allow-cell {
+  color: #888;
+}
+
+.fee-cell {
+  font-weight: 500;
+}
+
+.subscribers-cell {
+  color: #888;
+}
+
+.action-cell {
+  justify-content: flex-end;
+}
+
+.action-btn {
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  background: rgba(255, 255, 255, 0.1);
+  border: none;
+  color: white;
+}
+
+.action-btn:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.action-btn.request {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+/* Hover effect untuk baris tabel */
+.table-row:hover {
+  background-color: rgba(255, 255, 255, 0.05);
+}
+
+/* Modal/Popup Styles */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.75);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.modal-content {
+  background: #1a1a1a;
+  border-radius: 12px;
+  padding: 24px;
+  width: 90%;
+  max-width: 600px;
+  max-height: 90vh;
+  overflow-y: auto;
+  position: relative;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+}
+
+.modal-header h2 {
+  color: #fff;
+  margin: 0;
+  font-size: 24px;
+}
+
+.close-btn {
+  background: none;
+  border: none;
+  color: #666;
+  font-size: 24px;
+  cursor: pointer;
+  padding: 4px 8px;
+  border-radius: 4px;
+}
+
+.close-btn:hover {
+  color: #fff;
+  background: rgba(255, 255, 255, 0.1);
+}
+
+/* Form Styles */
+.register-form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.form-group label {
+  color: #fff;
+  font-size: 14px;
+}
+
+.input-wrapper {
+  position: relative;
+}
+
+.input-wrapper input,
+.input-wrapper textarea {
+  width: 100%;
+  padding: 12px;
+  background: #2a2a2a;
+  border: 1px solid #333;
+  border-radius: 8px;
+  color: #fff;
+  font-size: 14px;
+}
+
+.input-wrapper input:focus,
+.input-wrapper textarea:focus {
+  outline: none;
+  border-color: #0066ff;
+}
+
+/* Fee Input Specific */
+.fee-input {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.fee-input input {
+  flex: 1;
+}
+
+.fee-currency {
+  color: #666;
+  font-size: 14px;
+}
+
+/* Capabilities Section */
+.capability-input {
+  display: flex;
+  gap: 8px;
+}
+
+.capability-input input {
+  flex: 1;
+}
+
+.add-btn {
+  padding: 8px 16px;
+  background: #0066ff;
+  border: none;
+  border-radius: 8px;
+  color: #fff;
+  cursor: pointer;
+}
+
+.add-btn:hover {
+  background: #0052cc;
+}
+
+.capabilities-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+.capability-tag {
+  background: #2a2a2a;
+  padding: 4px 8px;
+  border-radius: 4px;
+  color: #fff;
+  font-size: 12px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.remove-cap {
+  background: none;
+  border: none;
+  color: #666;
+  cursor: pointer;
+  padding: 2px;
+}
+
+.remove-cap:hover {
+  color: #ff3b30;
+}
+
+/* Checkbox Style */
+.checkbox-group {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.checkbox-label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  color: #fff;
+}
+
+/* Submit Button */
+.register-submit-btn {
+  padding: 12px;
+  background: linear-gradient(90deg, #0066ff 0%, #00ff99 100%);
+  border: none;
+  border-radius: 8px;
+  color: #fff;
+  font-weight: bold;
+  cursor: pointer;
+  margin-top: 16px;
+}
+
+.register-submit-btn:hover {
+  opacity: 0.9;
+}
+
+/* Scrollbar Styling */
+.modal-content::-webkit-scrollbar {
+  width: 8px;
+}
+
+.modal-content::-webkit-scrollbar-track {
+  background: #1a1a1a;
+}
+
+.modal-content::-webkit-scrollbar-thumb {
+  background: #333;
+  border-radius: 4px;
+}
+
+.modal-content::-webkit-scrollbar-thumb:hover {
+  background: #444;
+}
+
+.loading-state,
+.error-state {
+  padding: 2rem;
+  text-align: center;
+  color: #888;
+}
+
+.error-state {
+  color: #ff3b30;
+}
+
+/* Success Popup */
+.success-popup-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.85);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1100;
+  animation: fadeIn 0.3s ease-out;
+}
+
+.success-popup {
+  background: linear-gradient(135deg, #1a1a1a, #2a2a2a);
+  border-radius: 16px;
+  padding: 32px;
+  width: 90%;
+  max-width: 480px;
+  text-align: center;
+  position: relative;
+  box-shadow: 0 8px 32px rgba(0, 123, 255, 0.2);
+  animation: slideUp 0.4s ease-out;
+}
+
+.success-icon {
+  width: 64px;
+  height: 64px;
+  background: linear-gradient(135deg, #00ff99, #0066ff);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 24px;
+  font-size: 32px;
+  color: white;
+  animation: scaleIn 0.5s ease-out;
+}
+
+.success-popup h3 {
+  color: white;
+  font-size: 24px;
+  margin-bottom: 24px;
+}
+
+.agent-details {
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 12px;
+  padding: 20px;
+  margin-bottom: 24px;
+}
+
+.agent-name {
+  font-size: 18px;
+  color: #00ff99;
+  margin-bottom: 8px;
+}
+
+.agent-key {
+  font-family: monospace;
+  color: #0066ff;
+  font-size: 16px;
+  margin-bottom: 16px;
+}
+
+.success-capability-tag {
+  display: inline-block;
+  padding: 6px 12px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 20px;
+  color: white;
+  font-size: 14px;
+  margin: 4px;
+}
+
+.close-success-btn {
+  padding: 12px 32px;
+  background: linear-gradient(90deg, #0066ff, #00ff99);
+  border: none;
+  border-radius: 8px;
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.close-success-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 123, 255, 0.3);
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideUp {
+  from {
+    transform: translateY(20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes scaleIn {
+  from {
+    transform: scale(0);
+  }
+  to {
+    transform: scale(1);
+  }
+}
+
+/* Subscribe Modal */
+.subscribe-modal {
+  background: #1a1a1a;
+  border-radius: 16px;
+  padding: 24px;
+  width: 90%;
+  max-width: 480px;
+  position: relative;
+  animation: slideUp 0.3s ease-out;
+}
+
+.subscribe-modal .modal-header {
+  margin-bottom: 24px;
+}
+
+.subscribe-modal h3 {
+  color: white;
+  font-size: 20px;
+  margin: 0;
+}
+
+.subscribe-form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.subscribe-form .form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.subscribe-form label {
+  color: #fff;
+  font-size: 14px;
+}
+
+.subscribe-form input {
+  width: 100%;
+  padding: 12px;
+  background: #2a2a2a;
+  border: 1px solid #333;
+  border-radius: 8px;
+  color: #fff;
+  font-size: 14px;
+}
+
+.subscribe-form input:focus {
+  outline: none;
+  border-color: #0066ff;
+}
+
+.subscribe-submit-btn {
+  padding: 12px;
+  background: linear-gradient(90deg, #0066ff, #00ff99);
+  border: none;
+  border-radius: 8px;
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.subscribe-submit-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 123, 255, 0.3);
+}
+
+/* Error message styling */
+.error-message {
+  color: #ff3b30;
+  font-size: 14px;
+  margin-top: 4px;
+}
+
+/* Success notification */
+.notification {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  padding: 16px 24px;
+  background: linear-gradient(90deg, #00ff99, #0066ff);
+  border-radius: 8px;
+  color: white;
+  font-weight: bold;
+  animation: slideIn 0.3s ease-out;
+  z-index: 1200;
+}
+
+@keyframes slideIn {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+/* Notification Popup */
+.notification-popup {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 2000;
+  animation: slideInRight 0.3s ease-out;
+}
+
+.notification-content {
+  background: linear-gradient(90deg, #0066ff, #00ff99);
+  color: white;
+  padding: 16px 24px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  box-shadow: 0 4px 12px rgba(0, 102, 255, 0.2);
+  font-weight: 500;
+}
+
+.notification-icon {
+  background: rgba(255, 255, 255, 0.2);
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+}
+
+@keyframes slideInRight {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@keyframes fadeOut {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+/* Update Subscribe Button */
+.subscribe-submit-btn {
+  background: linear-gradient(90deg, #0066ff, #00ff99);
+  color: white;
+  padding: 12px;
+  border: none;
+  border-radius: 8px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  width: 100%;
+  margin-top: 20px;
+}
+
+.subscribe-submit-btn:hover {
+  opacity: 0.9;
+  transform: translateY(-2px);
+}
+
+/* Update Modal Styling */
+.subscribe-modal {
+  background: #1a1a1a;
+  padding: 24px;
+  border-radius: 16px;
+  width: 100%;
+  max-width: 400px;
+}
+
+.subscribe-modal h3 {
+  margin: 0 0 24px 0;
+  color: white;
+  font-size: 20px;
+}
+
+.form-group input {
+  background: #2a2a2a;
+  border: 1px solid #333;
+  color: white;
+  padding: 12px;
+  border-radius: 8px;
+  width: 100%;
+}
+
+.form-group input:focus {
+  border-color: #0066ff;
+  outline: none;
+}
+
+.form-group label {
+  color: #999;
+  margin-bottom: 8px;
+  display: block;
+}
+
+/* Agent Detail Modal */
+.agent-detail-modal {
+  background: #1a1a1a;
+  border-radius: 16px;
+  padding: 24px;
+  width: 90%;
+  max-width: 500px;
+  color: white;
+  position: relative;
+}
+
+.agent-detail-modal h2 {
+  margin: 0 0 8px 0;
+  font-size: 24px;
+  color: white;
+}
+
+.agent-description {
+  color: #999;
+  margin-bottom: 24px;
+  font-size: 14px;
+}
+
+.detail-section {
+  margin-bottom: 16px;
+}
+
+.detail-label {
+  color: #666;
+  font-size: 14px;
+  margin-bottom: 4px;
+}
+
+.detail-value {
+  color: white;
+  font-size: 16px;
+  word-break: break-all;
+}
+
+.capabilities-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+.capability-tag {
+  background: #2a2a2a;
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 14px;
+}
+
+.subscribe-btn {
+  width: 100%;
+  padding: 12px;
+  background: linear-gradient(90deg, #0066ff, #00ff99);
+  border: none;
+  border-radius: 8px;
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+  margin-top: 24px;
+  transition: all 0.3s ease;
+}
+
+.subscribe-btn:hover {
+  opacity: 0.9;
+  transform: translateY(-2px);
+}
+
+/* Make table rows clickable */
+.table-row {
+  transition: background-color 0.2s ease;
+}
+
+.table-row:hover {
+  background-color: rgba(255, 255, 255, 0.05);
+}
+
+/* Update modal close button position */
+.modal-close {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+}
+
+.close-btn {
+  background: none;
+  border: none;
+  color: #666;
+  font-size: 24px;
+  cursor: pointer;
+  padding: 4px 8px;
+  border-radius: 4px;
+}
+
+.close-btn:hover {
+  color: white;
+  background: rgba(255, 255, 255, 0.1);
+}
+
+/* Connect Wallet Button Styling */
+.connect-btn {
+  padding: 1rem 2.5rem;
+  font-size: 1rem;
+  font-weight: 600;
+  color: white;
+  background: linear-gradient(45deg, #007bff, #00ff88);
+  border: none;
+  border-radius: 50px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  box-shadow: 0 4px 15px rgba(0, 123, 255, 0.2);
+}
+
+.connect-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(0, 123, 255, 0.3);
+}
+
+.connect-btn:active {
+  transform: translateY(1px);
+}
+
+/* Add shine effect */
+.connect-btn::after {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: linear-gradient(
+    transparent,
+    rgba(255, 255, 255, 0.3),
+    transparent
+  );
+  transform: rotate(45deg);
+  transition: 0.5s;
+  opacity: 0;
+}
+
+.connect-btn:hover::after {
+  opacity: 1;
+  left: 100%;
+}
+
+/* Container untuk welcome section */
+.welcome-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.5rem;
+  padding: 2rem;
+}
+
+.welcome-text {
+  font-size: 1.5rem;
+  color: #fff;
+  margin-bottom: 1rem;
+  background: linear-gradient(45deg, #007bff, #00ff88);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-weight: 600;
+}
+
+/* Connect button container */
+.connect-btn-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+}
+
+/* Animation for text */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Update wallet info styling */
+.wallet-info {
+  width: 100%;
+  padding: 0.75rem;
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 12px;
+  margin-bottom: 1rem;
+}
+
+.wallet-actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+.wallet-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.wallet-label {
+  color: #888;
+  font-size: 0.9rem;
+  padding: 0.5rem 1rem;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 50px;
+}
+
+.wallet-address {
+  color: #fff;
+  font-family: monospace;
+  font-size: 0.9rem;
+  font-weight: 500;
+  padding: 0.5rem 1rem;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 50px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.wallet-buttons {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+}
+
+/* Update existing button styles */
+.register-btn, .disconnect-btn {
+  padding: 0.75rem 1.5rem;
+  border-radius: 50px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  transition: all 0.3s ease;
+}
+
+.register-btn {
+  background: linear-gradient(45deg, #007bff, #00ff88);
+  border: none;
+  color: white;
+}
+
+.register-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 123, 255, 0.3);
+}
+
+.disconnect-btn {
+  background: transparent;
+  border: 1px solid rgba(255, 59, 48, 0.5);
+  color: #ff3b30;
+}
+
+.disconnect-btn:hover {
+  background: rgba(255, 59, 48, 0.1);
+  transform: translateY(-2px);
+}
+
+/* Update welcome section for better alignment */
+.welcome-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.5rem;
+  padding: 2rem;
+} 

@@ -1,0 +1,128 @@
+.header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  width: 100%;
+  padding: 0rem 0;
+  z-index: 1000;
+  background: rgba(0, 0, 0, 0); /* Kurangi opacity background */
+  backdrop-filter: blur(5px);
+}
+
+.header-container {
+  max-width: 1400px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 2rem;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  text-decoration: none;
+  color: #fff;
+}
+
+.logo-image {
+  height: 87px; /* Sesuaikan dengan ukuran yang diinginkan */
+  width: auto;
+}
+
+.logo-text {
+  font-weight: 600;
+  font-size: 1.2rem;
+}
+
+.nav-menu {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+}
+
+.nav-background {
+  background: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(10px);
+  border-radius: 25px;
+  padding: 0.5rem;
+  display: flex;
+  gap: 0.5rem;
+}
+
+.nav-link {
+  color: #666;
+  text-decoration: none;
+  font-weight: 500;
+  font-size: 1rem;
+  padding: 0.5rem 1.5rem;
+  border-radius: 20px;
+  transition: all 0.3s ease;
+}
+
+.nav-link:hover {
+  color: #fff;
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.nav-link.active {
+  color: #fff;
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.social-link {
+  color: #fff;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: color 0.3s ease;
+  padding: 8px;
+}
+
+.social-link:hover {
+  color: #fff; /* Warna putih saat hover */
+}
+
+.x-logo {
+  width: 20px;
+  height: 20px;
+}
+
+/* Optional: Tambahkan animasi hover */
+.social-link:hover .x-logo {
+  transform: scale(1.1);
+  transition: transform 0.2s ease;
+}
+
+@media (max-width: 768px) {
+  .header-container {
+    padding: 0 1rem;
+  }
+
+  .logo {
+    font-size: 1.5rem;
+  }
+
+  .nav-background {
+    padding: 0.3rem;
+  }
+
+  .nav-link {
+    padding: 0.4rem 1rem;
+    font-size: 0.9rem;
+  }
+
+  .social-link {
+    font-size: 1.2rem;
+  }
+}
+
+/* Tambahkan margin-top pada main content */
+.main-content {
+  margin-top: 60px; /* Sesuaikan dengan tinggi header */
+}

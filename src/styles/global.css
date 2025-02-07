@@ -1,0 +1,87 @@
+:root {
+  --primary-color: #007bff;
+  --dark-bg: #0a0a0a;
+  --gradient-bg: linear-gradient(45deg, #0a0a0a, #1a1a1a);
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  line-height: 1.6;
+  background: var(--dark-bg);
+  color: white;
+  overflow-x: hidden;
+}
+
+h1 {
+  font-size: 4rem;
+  font-weight: 700;
+  background: linear-gradient(to right, #fff, #007bff);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  margin-bottom: 1.5rem;
+}
+
+h2 {
+  font-size: 2.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.gradient-text {
+  background: linear-gradient(45deg, #007bff, #00ff88);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+h3, h4, h5, h6 {
+  margin-bottom: 1rem;
+}
+
+p {
+  margin-bottom: 1rem;
+} 
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  
+  .animate-fade-in {
+    animation: fadeIn 1s ease forwards;
+  }
+
+.gradient-bg {
+  background: linear-gradient(45deg, 
+    rgba(0,123,255,0.1), 
+    rgba(0,123,255,0.05), 
+    rgba(0,255,136,0.05)
+  );
+}
+
+.gradient-border {
+  border: 1px solid transparent;
+  background: linear-gradient(45deg, #007bff, #00ff88) border-box;
+  -webkit-mask:
+    linear-gradient(#fff 0 0) padding-box, 
+    linear-gradient(#fff 0 0);
+  mask:
+    linear-gradient(#fff 0 0) padding-box, 
+    linear-gradient(#fff 0 0);
+  -webkit-mask-composite: destination-out;
+  mask-composite: exclude;
+}
+
+@keyframes pulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+  100% { transform: scale(1); }
+}
+
+.pulse {
+  animation: pulse 2s infinite;
+}
