@@ -1,5 +1,7 @@
 {
   "version": 2,
+  "buildCommand": "npm run build",
+  "outputDirectory": "build",
   "builds": [
     {
       "src": "api/server.js",
@@ -16,27 +18,14 @@
   "routes": [
     {
       "src": "/api/(.*)",
-      "dest": "api/server.js"
+      "dest": "/api/server.js"
     },
     {
-      "src": "/static/(.*)",
-      "dest": "build/static/$1"
-    },
-    {
-      "src": "/favicon.ico",
-      "dest": "build/favicon.ico"
-    },
-    {
-      "src": "/manifest.json",
-      "dest": "build/manifest.json"
-    },
-    {
-      "src": "/(.*)\\.(.+)",
-      "dest": "build/$1.$2"
+      "handle": "filesystem"
     },
     {
       "src": "/(.*)",
-      "dest": "build/index.html"
+      "dest": "/index.html"
     }
   ]
 } 
