@@ -3,6 +3,7 @@ import './SuperSwarm.css';
 import axios from 'axios';
 
 const API_BASE_URL = process.env.REACT_APP_API_BASE_URL || 'http://localhost:5001/api';
+console.log('API Base URL:', API_BASE_URL);
 
 const SuperSwarm = () => {
   const [walletAddress, setWalletAddress] = useState(null);
@@ -79,36 +80,41 @@ const SuperSwarm = () => {
       setLoading(true);
       console.log('Fetching agents for wallet:', walletAddress);
 
-      // Cek apakah sudah ada signature yang valid
       let signature = localStorage.getItem('lastSignature');
       const lastSignatureTime = localStorage.getItem('signatureTimestamp');
-      const signatureExpiry = 30 * 60 * 1000; // 30 menit dalam milliseconds
+      const signatureExpiry = 30 * 60 * 1000;
 
-      // Jika tidak ada signature atau signature sudah expired, minta signature baru
       if (!signature || !lastSignatureTime || (Date.now() - parseInt(lastSignatureTime) > signatureExpiry)) {
         const message = "Fetch Agents Authentication";
         signature = await signMessage(message);
         
-        // Simpan signature baru dan timestamp
         localStorage.setItem('lastSignature', signature);
         localStorage.setItem('signatureTimestamp', Date.now().toString());
       }
 
-      const headers = {
+      // Tambahkan logging untuk debugging
+      console.log('Request Headers:', {
         'Content-Type': 'application/json',
         'x-signature': signature,
         'x-public-key': walletAddress,
         'x-message': "Fetch Agents Authentication"
-      };
+      });
 
       const response = await axios.get(`${API_BASE_URL}/agents`, {
-        headers,
+        headers: {
+          'Content-Type': 'application/json',
+          'x-signature': signature,
+          'x-public-key': walletAddress,
+          'x-message': "Fetch Agents Authentication"
+        },
         timeout: 10000,
         withCredentials: true
       });
 
+      // Tambahkan logging response
+      console.log('API Response:', response);
+
       if (response.status === 200) {
-        // Pastikan data adalah array
         const agentsData = Array.isArray(response.data) ? response.data : [];
         console.log('Agents fetched:', agentsData);
         setAgents(agentsData);
@@ -116,11 +122,20 @@ const SuperSwarm = () => {
       }
     } catch (error) {
       console.error('Error fetching agents:', error);
+      // Tambahkan detail error lebih lengkap
       if (error.response) {
-        console.error('Server response:', error.response.data);
+        console.error('Error Response:', {
+          status: error.response.status,
+          data: error.response.data,
+          headers: error.response.headers
+        });
+      } else if (error.request) {
+        console.error('Error Request:', error.request);
+      } else {
+        console.error('Error Message:', error.message);
       }
       setError('Failed to fetch agents. Please try again.');
-      setAgents([]); // Set empty array jika error
+      setAgents([]);
     } finally {
       setLoading(false);
     }
@@ -338,9 +353,11 @@ const SuperSwarm = () => {
   // Modifikasi useEffect
   useEffect(() => {
     if (walletAddress) {
+      console.log('Initializing fetch with wallet:', walletAddress);
+      console.log('Using API URL:', API_BASE_URL);
       fetchAgents();
     }
-  }, [walletAddress]); // Dependency hanya pada walletAddress
+  }, [walletAddress]);
 
   // Fungsi untuk handle subscribe
   const handleSubscribe = (agent) => {
