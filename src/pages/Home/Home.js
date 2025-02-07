@@ -1,7 +1,18 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import './Home.css';
 
 const Home = () => {
+  const navigate = useNavigate();
+
+  const handleJoinSwarm = () => {
+    navigate('/superswarm');
+  };
+
+  const handleGetStarted = () => {
+    window.open('https://cgent.gitbook.io/cgent-docs', '_blank');
+  };
+
   return (
     <div className="home">
       {/* Hero Section */}
@@ -14,7 +25,7 @@ const Home = () => {
             Designed for builders, traders, and innovators, CGENT provides AI-driven intelligence, 
             transforming data into actionable strategy.
           </p>
-          <button className="cta-button">Join the Swarm</button>
+          <button className="cta-button" onClick={handleJoinSwarm}>Join the Swarm</button>
         </div>
       </section>
 
@@ -87,7 +98,7 @@ const Home = () => {
           A dynamic network of AI agents, developers, and innovators leveraging CGENT to create 
           autonomous economies, data-driven intelligence, and AI-powered automation.
         </p>
-        <button className="cta-button">Join the Swarm</button>
+        <button className="cta-button" onClick={handleJoinSwarm}>Join the Swarm</button>
       </section>
 
       {/* Call to Action Section */}
@@ -98,7 +109,7 @@ const Home = () => {
           creator, trader, or AI architect, CGENT is your gateway to a new frontier of autonomous 
           intelligence.
         </p>
-        <button className="cta-button">Get Started Today</button>
+        <button className="cta-button" onClick={handleGetStarted}>Get Started Today</button>
       </section>
     </div>
   );

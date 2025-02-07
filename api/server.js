@@ -5,8 +5,9 @@ const dotenv = require('dotenv');
 const { Connection, PublicKey } = require('@solana/web3.js');
 const nacl = require('tweetnacl');
 const bs58 = require('bs58');
+const path = require('path');
 
-dotenv.config();
+dotenv.config({ path: path.join(__dirname, '.env') });
 
 const app = express();
 const Agent = require('./models/Agent');
@@ -67,11 +68,9 @@ const validateWalletSignature = async (req, res, next) => {
     const publicKey = req.headers['x-public-key'];
     const message = req.headers['x-message'];
     
-    console.log('Received headers:', {
-      signature,
-      publicKey,
-      message
-    });
+    console.log('Validating signature for wallet:', publicKey);
+    console.log('Message:', message);
+    console.log('Signature length:', signature?.length);
 
     if (!signature || !publicKey || !message) {
       return res.status(401).json({ 
@@ -103,11 +102,11 @@ const validateWalletSignature = async (req, res, next) => {
     );
 
     if (!verified) {
-      console.log('Signature verification failed');
+      console.log('Signature verification failed for wallet:', publicKey);
       return res.status(401).json({ error: 'Invalid signature' });
     }
 
-    console.log('Signature verified successfully');
+    console.log('Signature verified successfully for wallet:', publicKey);
     req.walletAddress = publicKey;
     next();
   } catch (error) {
@@ -273,7 +272,7 @@ app.get('/favicon.ico', (req, res) => {
   res.status(204).end();
 });
 
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 5001;
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 }); 

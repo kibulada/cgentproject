@@ -15,7 +15,7 @@ const Footer = () => {
             
           <Link to="https://cgent.gitbook.io/cgent-docs" target='_blank'>Documentation</Link>
           <Link to="https://cgent.gitbook.io/cgent-docs/developers/register-your-agent" target='_blank'>SDK Reference</Link>
-          <Link to="/contact">Contact</Link>
+          <Link to="https://x.com/CGentOnWeb3" target='_blank'>Contact</Link>
         </div>
         <div className="social-icons">
           {/* Add your social media icons here */}

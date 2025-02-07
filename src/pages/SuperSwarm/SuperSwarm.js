@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import './SuperSwarm.css';
 import axios from 'axios';
 
+const API_BASE_URL = process.env.REACT_APP_API_BASE_URL || 'http://localhost:5001';
+
 const SuperSwarm = () => {
   const [walletAddress, setWalletAddress] = useState(null);
   const [agents, setAgents] = useState([]);
@@ -26,6 +28,7 @@ const SuperSwarm = () => {
   });
   const [showNotification, setShowNotification] = useState(false);
   const [selectedAgentDetail, setSelectedAgentDetail] = useState(null);
+  const [notificationMessage, setNotificationMessage] = useState('');
 
   // Get Phantom Provider
   const getProvider = () => {
@@ -35,7 +38,8 @@ const SuperSwarm = () => {
         return provider;
       }
     }
-    window.open("https://phantom.app/", "_blank");
+    // Hapus auto-redirect ke Phantom
+    return null;
   };
 
   // Sign Message with Wallet
@@ -74,29 +78,48 @@ const SuperSwarm = () => {
       setLoading(true);
       console.log('Fetching agents for wallet:', walletAddress);
 
-      const message = "Fetch Agents Authentication";
-      const signature = await signMessage(message);
+      // Cek apakah sudah ada signature yang valid
+      let signature = localStorage.getItem('lastSignature');
+      const lastSignatureTime = localStorage.getItem('signatureTimestamp');
+      const signatureExpiry = 30 * 60 * 1000; // 30 menit dalam milliseconds
+
+      // Jika tidak ada signature atau signature sudah expired, minta signature baru
+      if (!signature || !lastSignatureTime || (Date.now() - parseInt(lastSignatureTime) > signatureExpiry)) {
+        const message = "Fetch Agents Authentication";
+        signature = await signMessage(message);
+        
+        // Simpan signature baru dan timestamp
+        localStorage.setItem('lastSignature', signature);
+        localStorage.setItem('signatureTimestamp', Date.now().toString());
+      }
 
       const headers = {
         'Content-Type': 'application/json',
         'x-signature': signature,
         'x-public-key': walletAddress,
-        'x-message': message
+        'x-message': "Fetch Agents Authentication"
       };
 
-      console.log('Request headers:', headers);
+      const response = await axios.get(`${API_BASE_URL}/api/agents`, { 
+        headers,
+        timeout: 10000
+      });
 
-      const response = await axios.get('http://localhost:5000/api/agents', { headers });
-
-      console.log('Agents fetched:', response.data);
-      setAgents(response.data);
-      setError(null);
+      if (response.status === 200) {
+        console.log('Agents fetched:', response.data);
+        setAgents(response.data);
+        setError(null);
+      }
     } catch (error) {
       console.error('Error fetching agents:', error);
-      if (error.response) {
-        console.error('Server response:', error.response.data);
+      // Jika error 401 (unauthorized), hapus signature lama dan coba lagi
+      if (error.response?.status === 401) {
+        localStorage.removeItem('lastSignature');
+        localStorage.removeItem('signatureTimestamp');
+        setError('Session expired. Please try again.');
+      } else {
+        setError('Failed to fetch agents. Please try again.');
       }
-      setError('Failed to fetch agents. Please try again.');
       setAgents([]);
     } finally {
       setLoading(false);
@@ -107,13 +130,16 @@ const SuperSwarm = () => {
   const connectWallet = async () => {
     try {
       const provider = getProvider();
-      if (provider) {
-        const resp = await provider.connect();
-        const publicKey = resp.publicKey.toString();
-        setWalletAddress(publicKey);
-        localStorage.setItem('walletAddress', publicKey);
-        console.log('Connected to wallet:', publicKey);
+      if (!provider) {
+        window.open("https://phantom.app/", "_blank");
+        return;
       }
+      
+      const resp = await provider.connect(); // Popup hanya muncul di sini
+      const address = resp.publicKey.toString();
+      setWalletAddress(address);
+      localStorage.setItem('walletAddress', address);
+      console.log('Connected to wallet:', address);
     } catch (error) {
       console.error("Error connecting to wallet:", error);
       setError('Failed to connect wallet');
@@ -128,6 +154,8 @@ const SuperSwarm = () => {
         await provider.disconnect();
         setWalletAddress(null);
         localStorage.removeItem('walletAddress');
+        localStorage.removeItem('lastSignature');
+        localStorage.removeItem('signatureTimestamp');
         setAgents([]);
       }
     } catch (error) {
@@ -174,7 +202,7 @@ const SuperSwarm = () => {
       };
 
       const response = await axios.post(
-        'http://localhost:5000/api/agents',
+        `${API_BASE_URL}/api/agents`,
         agentData,
         {
           headers: {
@@ -233,69 +261,10 @@ const SuperSwarm = () => {
     });
   };
 
-  // Handle subscription/request subscription
-  const handleSubscription = async (agent) => {
-    try {
-      if (!walletAddress) {
-        setError('Please connect your wallet first');
-        return;
-      }
-
-      const message = `Subscribe to Agent: ${agent.name}`;
-      const signature = await signMessage(message);
-
-      const response = await axios.post(
-        `http://localhost:5000/api/agents/${agent._id}/subscribe`,
-        {
-          subscriberWallet: walletAddress
-        },
-        {
-          headers: {
-            'Content-Type': 'application/json',
-            'signature': signature,
-            'publicKey': walletAddress,
-            'message': message
-          }
-        }
-      );
-
-      if (response.data.success) {
-        // Refresh agents list after successful subscription
-        fetchAgents();
-        alert(agent.restrictSubscriptions ? 
-          'Subscription request sent successfully' : 
-          'Subscribed successfully'
-        );
-      }
-    } catch (error) {
-      console.error('Subscription error:', error);
-      setError(agent.restrictSubscriptions ? 
-        'Failed to send subscription request' : 
-        'Failed to subscribe'
-      );
-    }
-  };
-
-  // Validasi API Endpoint
-  const validateApiEndpoint = (url) => {
-    const urlPattern = /^(https?:\/\/)?([\w-]+\.)+[\w-]+(\/[\w-./?%&=]*)?$/;
-    return urlPattern.test(url);
-  };
-
   // Handle Subscribe Button Click
   const handleSubscribeClick = (agent) => {
     setSelectedAgent(agent);
     setShowSubscribeForm(true);
-  };
-
-  // Show notification function
-  const showTemporaryNotification = (message) => {
-    setNotificationMessage(message);
-    setShowNotification(true);
-    setTimeout(() => {
-      setShowNotification(false);
-      setNotificationMessage('');
-    }, 3000); // Hide after 3 seconds
   };
 
   // Handle Subscribe Submit - Simplified mock function
@@ -328,78 +297,42 @@ const SuperSwarm = () => {
 
   // Modifikasi useEffect untuk wallet connection
   useEffect(() => {
+    // Cek wallet address di localStorage saat komponen mount
+    const savedWalletAddress = localStorage.getItem('walletAddress');
+    if (savedWalletAddress) {
+      setWalletAddress(savedWalletAddress);
+    }
+
     const provider = getProvider();
     if (provider) {
       provider.on("connect", (publicKey) => {
-        setWalletAddress(publicKey.toString());
-        localStorage.setItem('walletAddress', publicKey.toString());
+        const address = publicKey.toString();
+        setWalletAddress(address);
+        localStorage.setItem('walletAddress', address);
       });
+
       provider.on("disconnect", () => {
         setWalletAddress(null);
         localStorage.removeItem('walletAddress');
+        localStorage.removeItem('lastSignature');
+        localStorage.removeItem('signatureTimestamp');
         setAgents([]);
       });
     }
+
+    return () => {
+      if (provider) {
+        provider.removeAllListeners();
+      }
+    };
   }, []);
 
-  // Modifikasi useEffect untuk fetching agents
+  // Modifikasi useEffect
   useEffect(() => {
     if (walletAddress) {
       fetchAgents();
     }
-  }, [walletAddress]);
-
-  // Data statis untuk tabel
-  const staticAgents = [
-    {
-      name: "Token Info Provider",
-      publicKey: "4ah4H...NvAYG",
-      capabilities: ["ca_verification", "token_research"],
-      allowSubscriptions: "Yes",
-      fee: "10 CGENT",
-      subscribers: 1
-    },
-    {
-      name: "Athena",
-      publicKey: "H9H1K...32eEi",
-      capabilities: ["Token Research", "Coingecko Pro", "Web Search", "Analytics"],
-      allowSubscriptions: "No",
-      fee: "100 CGENT",
-      subscribers: 0
-    },
-    {
-      name: "Gigamon",
-      publicKey: "GBe7C...febVG",
-      capabilities: ["Analytics", "Marketing", "Research", "Social Media"],
-      allowSubscriptions: "Yes",
-      fee: "10 CGENT",
-      subscribers: 0
-    },
-    {
-      name: "GAIMer CHAD",
-      publicKey: "5Gtwu...GvmTP",
-      capabilities: ["Win"],
-      allowSubscriptions: "No",
-      fee: "10000 CGENT",
-      subscribers: 0
-    },
-    {
-      name: "Texas Hold GAIM",
-      publicKey: "2EY6d...Z7Vkr",
-      capabilities: ["Poker", "GAIM"],
-      allowSubscriptions: "Yes",
-      fee: "25 CGENT",
-      subscribers: 11
-    },
-    {
-      name: "Poker Master",
-      publicKey: "3Pcbo...s8cuu",
-      capabilities: ["Play poker super well"],
-      allowSubscriptions: "Yes",
-      fee: "10 CGENT",
-      subscribers: 0
-    }
-  ];
+  }, [walletAddress]); // Dependency hanya pada walletAddress
 
   return (
     <div className="superswarm">
