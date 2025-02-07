@@ -1,7 +1,5 @@
 {
   "version": 2,
-  "buildCommand": "npm run build",
-  "outputDirectory": "build",
   "builds": [
     {
       "src": "api/server.js",
@@ -10,22 +8,17 @@
     {
       "src": "package.json",
       "use": "@vercel/static-build",
-      "config": {
-        "distDir": "build"
-      }
+      "config": { "distDir": "build" }
     }
   ],
   "routes": [
     {
       "src": "/api/(.*)",
-      "dest": "/api/server.js"
-    },
-    {
-      "handle": "filesystem"
+      "dest": "api/server.js"
     },
     {
       "src": "/(.*)",
-      "dest": "/index.html"
+      "dest": "build/$1"
     }
   ]
 } 

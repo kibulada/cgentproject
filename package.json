@@ -16,13 +16,12 @@
     "web-vitals": "^4.2.4"
   },
   "scripts": {
-    "start": "node api/server.js",
-    "server": "nodemon api/server.js",
-    "client": "react-scripts start",
-    "dev": "concurrently \"npm run server\" \"npm run client\"",
-    "build": "react-scripts build",
+    "start": "react-scripts start",
+    "build": "CI=false react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "server": "node api/server.js",
+    "dev": "concurrently \"npm run server\" \"npm run start\""
   },
   "eslintConfig": {
     "extends": [
