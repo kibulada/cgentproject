@@ -1,9 +1,23 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './Home.css';
 
 const Home = () => {
   const navigate = useNavigate();
+  const [showCopyNotification, setShowCopyNotification] = useState(false);
+  
+  // Contract address yang akan di-copy
+  const contractAddress = "COMING SOON";
+
+  const handleCopyAddress = async () => {
+    try {
+      await navigator.clipboard.writeText(contractAddress);
+      setShowCopyNotification(true);
+      setTimeout(() => setShowCopyNotification(false), 2000); // Hilangkan notifikasi setelah 2 detik
+    } catch (err) {
+      console.error('Failed to copy:', err);
+    }
+  };
 
   const handleJoinSwarm = () => {
     navigate('/superswarm');
@@ -18,6 +32,21 @@ const Home = () => {
       {/* Hero Section */}
       <section className="hero-section">
         <div className="hero-content">
+          <div className="contract-address-container">
+            <span>CA: </span>
+            <span 
+              className="contract-address" 
+              onClick={handleCopyAddress}
+              title="Click to copy"
+            >
+              {contractAddress}
+            </span>
+            {showCopyNotification && (
+              <div className="copy-notification">
+                Copied!
+              </div>
+            )}
+          </div>
           <h1 className="gradient-text">Unlock the Power of AI</h1>
           <h2>Agents & Action Intelligence</h2>
           <p>

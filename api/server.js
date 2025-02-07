@@ -15,17 +15,18 @@ const Agent = require('./models/Agent');
 // Middleware
 app.use(cors({
   origin: [
-    process.env.FRONTEND_DEV_URL || 'http://localhost:3000',
-    process.env.FRONTEND_PROD_URL
-  ].filter(Boolean),
-  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+    'https://www.cgentsol.net',
+    'http://localhost:3000'
+  ],
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   allowedHeaders: [
     'Content-Type', 
     'x-signature', 
     'x-public-key', 
     'x-message',
     'x-wallet-address'
-  ]
+  ],
+  credentials: true
 }));
 app.use(express.json());
 

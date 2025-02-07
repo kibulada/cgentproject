@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import './SuperSwarm.css';
 import axios from 'axios';
 
-const API_BASE_URL = process.env.REACT_APP_API_BASE_URL || 'http://localhost:5001';
+const API_BASE_URL = process.env.REACT_APP_API_BASE_URL || 'http://localhost:5001/api';
 
 const SuperSwarm = () => {
   const [walletAddress, setWalletAddress] = useState(null);
@@ -100,9 +100,10 @@ const SuperSwarm = () => {
         'x-message': "Fetch Agents Authentication"
       };
 
-      const response = await axios.get(`${API_BASE_URL}/api/agents`, { 
+      const response = await axios.get(`${API_BASE_URL}/agents`, {
         headers,
-        timeout: 10000
+        timeout: 10000,
+        withCredentials: true
       });
 
       if (response.status === 200) {
@@ -202,7 +203,7 @@ const SuperSwarm = () => {
       };
 
       const response = await axios.post(
-        `${API_BASE_URL}/api/agents`,
+        `${API_BASE_URL}/agents`,
         agentData,
         {
           headers: {
