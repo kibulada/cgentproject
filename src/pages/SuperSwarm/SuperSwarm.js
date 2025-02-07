@@ -25,7 +25,6 @@ const SuperSwarm = () => {
     duration: 30
   });
   const [showNotification, setShowNotification] = useState(false);
-  const [notificationMessage, setNotificationMessage] = useState('');
   const [selectedAgentDetail, setSelectedAgentDetail] = useState(null);
 
   // Get Phantom Provider
