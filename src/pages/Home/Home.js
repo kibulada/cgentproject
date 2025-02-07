@@ -7,7 +7,7 @@ const Home = () => {
   const [showCopyNotification, setShowCopyNotification] = useState(false);
   
   // Contract address yang akan di-copy
-  const contractAddress = "COMING SOON";
+  const contractAddress = "2FT7rmgXKKG8fkQfiVzDwiVGDmvsL7CAr9WxADSepump";
 
   const handleCopyAddress = async () => {
     try {
