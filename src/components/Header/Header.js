@@ -49,6 +49,7 @@ const Header = () => {
             >
               SuperSwarm
             </Link>
+            
             <a 
               href="https://cgent.gitbook.io/cgent-docs" 
               target="_blank" 
@@ -57,6 +58,12 @@ const Header = () => {
             >
               Docs
             </a>
+            <Link 
+              to="/whitepaper" 
+              className={`nav-link ${location.pathname === '/whitepaper' ? 'active' : ''}`}
+            >
+              Whitepaper
+            </Link>
           </div>
         </nav>
 

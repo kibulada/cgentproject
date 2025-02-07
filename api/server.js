@@ -157,10 +157,10 @@ app.get('/', (req, res) => {
 
 // Routes
 // Get agents for connected wallet
-app.get('/api/agents', validateWalletSignature, async (req, res) => {
+app.get('/api/agents', async (req, res) => {
   try {
-    console.log('Fetching agents for wallet:', req.walletAddress);
     const agents = await Agent.find();
+    console.log('Sending agents:', agents);
     res.json(agents);
   } catch (error) {
     console.error('Error fetching agents:', error);

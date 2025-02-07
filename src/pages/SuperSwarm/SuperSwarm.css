@@ -202,6 +202,7 @@
   margin: 0;
 }
 
+/* Table Styles */
 .agents-table {
   width: 100%;
   background: rgba(0, 0, 0, 0.3);
@@ -212,8 +213,9 @@
 
 .table-header {
   display: grid;
-  grid-template-columns: 1.2fr 1.2fr 2fr 1fr 0.8fr 0.8fr 1.2fr;
-  padding: 0.75rem;
+  /* Adjust grid columns width */
+  grid-template-columns: 1fr 1.2fr 1.5fr 2fr 1fr 1fr 1fr;
+  padding: 1rem;
   background: rgba(255, 255, 255, 0.05);
   border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 }
@@ -221,33 +223,37 @@
 .header-cell {
   color: #888;
   font-size: 0.9rem;
-  padding: 0 1rem;
+  font-weight: 500;
+  padding: 0 0.5rem;
   display: flex;
   align-items: center;
-}
-
-.table-content {
-  width: 100%;
 }
 
 .table-row {
   display: grid;
-  grid-template-columns: 1.2fr 1.2fr 2fr 1fr 0.8fr 0.8fr 1.2fr;
-  padding: 0.75rem;
+  /* Match header grid columns */
+  grid-template-columns: 1fr 1.2fr 1.5fr 2fr 1fr 1fr 1fr;
+  padding: 1rem;
   border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-  align-items: center;
   transition: background-color 0.2s ease;
 }
 
+.table-row:hover {
+  background: rgba(255, 255, 255, 0.05);
+  cursor: pointer;
+}
+
+/* Cell Styles */
 .cell {
-  padding: 0 1rem;
-  color: #fff;
+  padding: 0 0.5rem;
   display: flex;
   align-items: center;
+  color: #fff;
 }
 
 .name-cell {
   font-weight: 500;
+  color: #00ff9d;
 }
 
 .key-cell {
@@ -259,13 +265,14 @@
   display: flex;
   flex-wrap: wrap;
   gap: 0.5rem;
+  padding: 0 0.5rem;
 }
 
 .capability-tag {
-  padding: 0.4rem 0.8rem;
+  padding: 0.3rem 0.6rem;
   background: rgba(255, 255, 255, 0.1);
   border-radius: 20px;
-  font-size: 0.85rem;
+  font-size: 0.8rem;
   white-space: nowrap;
 }
 
@@ -275,10 +282,7 @@
 
 .fee-cell {
   font-weight: 500;
-}
-
-.subscribers-cell {
-  color: #888;
+  color: #00ff9d;
 }
 
 .action-cell {
@@ -287,26 +291,18 @@
 
 .action-btn {
   padding: 0.5rem 1rem;
-  border-radius: 6px;
+  background: rgba(0, 255, 157, 0.1);
+  border: 1px solid rgba(0, 255, 157, 0.2);
+  border-radius: 8px;
+  color: #00ff9d;
   font-size: 0.9rem;
   cursor: pointer;
   transition: all 0.3s ease;
-  background: rgba(255, 255, 255, 0.1);
-  border: none;
-  color: white;
 }
 
 .action-btn:hover {
-  background: rgba(255, 255, 255, 0.2);
-}
-
-.action-btn.request {
-  background: rgba(255, 255, 255, 0.1);
-}
-
-/* Hover effect untuk baris tabel */
-.table-row:hover {
-  background-color: rgba(255, 255, 255, 0.05);
+  background: rgba(0, 255, 157, 0.2);
+  transform: translateY(-1px);
 }
 
 /* Modal/Popup Styles */
@@ -316,11 +312,12 @@
   left: 0;
   right: 0;
   bottom: 0;
-  background-color: rgba(0, 0, 0, 0.75);
+  background: rgba(0, 0, 0, 0.8);
   display: flex;
   justify-content: center;
   align-items: center;
   z-index: 1000;
+  backdrop-filter: blur(5px);
 }
 
 .modal-content {
@@ -866,6 +863,18 @@
   max-width: 500px;
   color: white;
   position: relative;
+  animation: modalFadeIn 0.3s ease;
+}
+
+@keyframes modalFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .agent-detail-modal h2 {

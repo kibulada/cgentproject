@@ -29,6 +29,7 @@ const SuperSwarm = () => {
   const [showNotification, setShowNotification] = useState(false);
   const [selectedAgentDetail, setSelectedAgentDetail] = useState(null);
   const [notificationMessage, setNotificationMessage] = useState('');
+  const [showModal, setShowModal] = useState(false);
 
   // Get Phantom Provider
   const getProvider = () => {
@@ -107,21 +108,19 @@ const SuperSwarm = () => {
       });
 
       if (response.status === 200) {
-        console.log('Agents fetched:', response.data);
-        setAgents(response.data);
+        // Pastikan data adalah array
+        const agentsData = Array.isArray(response.data) ? response.data : [];
+        console.log('Agents fetched:', agentsData);
+        setAgents(agentsData);
         setError(null);
       }
     } catch (error) {
       console.error('Error fetching agents:', error);
-      // Jika error 401 (unauthorized), hapus signature lama dan coba lagi
-      if (error.response?.status === 401) {
-        localStorage.removeItem('lastSignature');
-        localStorage.removeItem('signatureTimestamp');
-        setError('Session expired. Please try again.');
-      } else {
-        setError('Failed to fetch agents. Please try again.');
+      if (error.response) {
+        console.error('Server response:', error.response.data);
       }
-      setAgents([]);
+      setError('Failed to fetch agents. Please try again.');
+      setAgents([]); // Set empty array jika error
     } finally {
       setLoading(false);
     }
@@ -263,7 +262,8 @@ const SuperSwarm = () => {
   };
 
   // Handle Subscribe Button Click
-  const handleSubscribeClick = (agent) => {
+  const handleSubscribeClick = (agent, e) => {
+    e.stopPropagation(); // Prevent row click
     setSelectedAgent(agent);
     setShowSubscribeForm(true);
   };
@@ -293,7 +293,14 @@ const SuperSwarm = () => {
 
   // Tambahkan fungsi untuk menangani klik pada row
   const handleRowClick = (agent) => {
-    setSelectedAgentDetail(agent);
+    setSelectedAgent(agent);
+    setShowModal(true);
+  };
+
+  // Tambahkan fungsi close modal
+  const handleCloseModal = () => {
+    setShowModal(false);
+    setSelectedAgent(null);
   };
 
   // Modifikasi useEffect untuk wallet connection
@@ -335,6 +342,12 @@ const SuperSwarm = () => {
     }
   }, [walletAddress]); // Dependency hanya pada walletAddress
 
+  // Fungsi untuk handle subscribe
+  const handleSubscribe = (agent) => {
+    // Implementasi subscribe logic
+    console.log('Subscribe to agent:', agent);
+  };
+
   return (
     <div className="superswarm">
       {/* Hero Section */}
@@ -348,8 +361,8 @@ const SuperSwarm = () => {
         </p>
       </section>
 
-      {/* Agents Section */}
-      <section className="agents-section">
+      {/* Agents Table */}
+      <div className="agents-section">
         <div className="agents-container">
           <div className="header-actions">
             {!walletAddress ? (
@@ -381,52 +394,48 @@ const SuperSwarm = () => {
             )}
           </div>
 
-          {walletAddress && (
-            <div className="agents-table">
-              <div className="table-header">
-                <div className="header-cell">Name</div>
-                <div className="header-cell">Public Key</div>
-                <div className="header-cell">Capabilities</div>
-                <div className="header-cell">Allow Subscriptions</div>
-                <div className="header-cell">Fee</div>
-                <div className="header-cell">Subscribers</div>
-                <div className="header-cell"></div>
-              </div>
-
-              {loading ? (
-                <div className="loading-state">Loading agents...</div>
-              ) : error ? (
-                <div className="error-state">{error}</div>
-              ) : (
+          {loading ? (
+            <div className="loading-state">Loading agents...</div>
+          ) : error ? (
+            <div className="error-state">{error}</div>
+          ) : walletAddress ? (
+            agents && agents.length > 0 ? (
+              <div className="agents-table">
+                <div className="table-header">
+                  <div className="header-cell">Name</div>
+                  <div className="header-cell">Public Key</div>
+                  <div className="header-cell">Description</div>
+                  <div className="header-cell">Capabilities</div>
+                  <div className="header-cell">Allow</div>
+                  <div className="header-cell">Fee</div>
+                  <div className="header-cell">Action</div>
+                </div>
+                
                 <div className="table-content">
-                  {agents.map((agent, index) => (
-                    <div 
-                      key={index} 
-                      className="table-row"
-                      onClick={() => handleRowClick(agent)}
-                      style={{ cursor: 'pointer' }}
-                    >
+                  {agents.map((agent) => (
+                    <div key={agent._id} className="table-row" onClick={() => handleRowClick(agent)}>
                       <div className="cell name-cell">{agent.name}</div>
-                      <div className="cell key-cell">{formatPublicKey(agent.publicKey)}</div>
-                      <div className="cell capabilities-cell">
-                        {Array.isArray(agent.capabilities) && 
-                          agent.capabilities.map((cap, i) => (
-                            <span key={i} className="capability-tag">{cap}</span>
-                          ))
-                        }
+                      <div className="cell key-cell">
+                        {formatPublicKey(agent.publicKey)}
+                      </div>
+                      <div className="cell">{agent.description}</div>
+                      <div className="capabilities-cell">
+                        {agent.capabilities.map((cap, index) => (
+                          <span key={index} className="capability-tag">
+                            {cap}
+                          </span>
+                        ))}
                       </div>
                       <div className="cell allow-cell">
-                        {agent.restrictSubscriptions ? 'No' : 'Yes'}
+                        {agent.allowAnyone ? 'All' : 'Selected'}
                       </div>
-                      <div className="cell fee-cell">{agent.fee} CGENT</div>
-                      <div className="cell subscribers-cell">{agent.subscribers || 0}</div>
+                      <div className="cell fee-cell">
+                        {agent.fee} CGENT
+                      </div>
                       <div className="cell action-cell">
                         <button 
-                          className="action-btn subscribe"
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            handleSubscribeClick(agent);
-                          }}
+                          className="action-btn"
+                          onClick={(e) => handleSubscribeClick(agent, e)}
                         >
                           Subscribe
                         </button>
@@ -434,11 +443,13 @@ const SuperSwarm = () => {
                     </div>
                   ))}
                 </div>
-              )}
-            </div>
-          )}
+              </div>
+            ) : (
+              <div className="loading-state">No agents available</div>
+            )
+          ) : null}
         </div>
-      </section>
+      </div>
 
       {/* Screen Size Warning */}
       <div className="screen-warning">
@@ -637,59 +648,52 @@ const SuperSwarm = () => {
       )}
 
       {/* Tambahkan modal detail agent */}
-      {selectedAgentDetail && (
-        <div className="modal-overlay">
-          <div className="agent-detail-modal">
-            <div className="modal-header">
-              <h2>{selectedAgentDetail.name}</h2>
-              <button 
-                className="close-btn"
-                onClick={() => setSelectedAgentDetail(null)}
-              >
-                ×
-              </button>
-            </div>
-
-            <div className="detail-section">
-              <div className="detail-label">Description</div>
-              <div className="detail-value">{selectedAgentDetail.description}</div>
-            </div>
-
+      {showModal && selectedAgent && (
+        <div className="modal-overlay" onClick={handleCloseModal}>
+          <div className="agent-detail-modal" onClick={e => e.stopPropagation()}>
+            <button className="close-btn" onClick={handleCloseModal}>×</button>
+            
+            <h2>{selectedAgent.name}</h2>
+            <p className="agent-description">{selectedAgent.description}</p>
+            
             <div className="detail-section">
               <div className="detail-label">Public Key</div>
-              <div className="detail-value">{selectedAgentDetail.publicKey}</div>
+              <div className="detail-value">{selectedAgent.publicKey}</div>
             </div>
-
+            
             <div className="detail-section">
               <div className="detail-label">Capabilities</div>
               <div className="capabilities-list">
-                {selectedAgentDetail.capabilities.map((cap, index) => (
-                  <span key={index} className="capability-tag">{cap}</span>
+                {selectedAgent.capabilities.map((cap, index) => (
+                  <span key={index} className="capability-tag">
+                    {cap}
+                  </span>
                 ))}
               </div>
             </div>
-
+            
             <div className="detail-section">
-              <div className="detail-label">Fee</div>
-              <div className="detail-value">{selectedAgentDetail.fee} CGENT</div>
-            </div>
-
-            <div className="detail-section">
-              <div className="detail-label">Allow Subscriptions</div>
+              <div className="detail-label">Access</div>
               <div className="detail-value">
-                {selectedAgentDetail.restrictSubscriptions ? 'No' : 'Yes'}
+                {selectedAgent.allowAnyone ? 'Open to All' : 'Selected Users Only'}
               </div>
             </div>
-
+            
+            <div className="detail-section">
+              <div className="detail-label">Fee</div>
+              <div className="detail-value">{selectedAgent.fee} CGENT</div>
+            </div>
+            
             <button 
               className="subscribe-btn"
               onClick={(e) => {
                 e.stopPropagation();
-                setSelectedAgentDetail(null);
-                handleSubscribeClick(selectedAgentDetail);
+                setShowSubscribeForm(true);
+                setSelectedAgent(selectedAgent);
+                setShowModal(false);
               }}
             >
-              Subscribe
+              Subscribe to Agent
             </button>
           </div>
         </div>

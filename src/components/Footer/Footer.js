@@ -12,7 +12,7 @@ const Footer = () => {
           <span className="footer-logo-text"></span>
         </div>
         <div className="footer-links">
-            
+          <Link to="/whitepaper">Whitepaper</Link>
           <Link to="https://cgent.gitbook.io/cgent-docs" target='_blank'>Documentation</Link>
           <Link to="https://cgent.gitbook.io/cgent-docs/developers/register-your-agent" target='_blank'>SDK Reference</Link>
           <Link to="https://x.com/CGentOnWeb3" target='_blank'>Contact</Link>

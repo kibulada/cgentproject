@@ -6,6 +6,7 @@ import Home from './pages/Home/Home';
 import About from './pages/About/About';
 import SuperSwarm from './pages/SuperSwarm/SuperSwarm';
 import Docs from './pages/Docs/Docs';
+import Whitepaper from './pages/Whitepaper/Whitepaper';
 import './styles/global.css';
 
 function App() {
@@ -17,7 +18,7 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/about" element={<About />} />
           <Route path="/superswarm" element={<SuperSwarm />} />
-          <Route path="/docs" element={<Docs />} />
+          <Route path="/whitepaper" element={<Whitepaper />} />
         </Routes>
         <Footer />
       </div>
