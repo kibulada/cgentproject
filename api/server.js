@@ -150,6 +150,11 @@ const validateWalletAddress = async (req, res, next) => {
   }
 };
 
+// Add root route
+app.get('/', (req, res) => {
+  res.json({ message: 'Welcome to CAgent API' });
+});
+
 // Routes
 // Get agents for connected wallet
 app.get('/api/agents', validateWalletSignature, async (req, res) => {
@@ -261,6 +266,11 @@ app.post('/api/agents/:id/subscribe', validateWalletSignature, async (req, res) 
     console.error('Subscription error:', error);
     res.status(500).json({ error: 'Error processing subscription' });
   }
+});
+
+// Handle favicon requests
+app.get('/favicon.ico', (req, res) => {
+  res.status(204).end();
 });
 
 const PORT = process.env.PORT || 5000;
