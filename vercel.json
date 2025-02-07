@@ -17,8 +17,21 @@
       "dest": "api/server.js"
     },
     {
+      "handle": "filesystem"
+    },
+    {
       "src": "/(.*)",
-      "dest": "build/$1"
+      "dest": "/index.html"
+    }
+  ],
+  "rewrites": [
+    {
+      "source": "/api/(.*)",
+      "destination": "/api/server.js"
+    },
+    {
+      "source": "/(.*)",
+      "destination": "/index.html"
     }
   ]
 } 
