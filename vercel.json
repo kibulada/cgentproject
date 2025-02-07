@@ -4,6 +4,13 @@
     {
       "src": "api/server.js",
       "use": "@vercel/node"
+    },
+    {
+      "src": "package.json",
+      "use": "@vercel/static-build",
+      "config": {
+        "distDir": "build"
+      }
     }
   ],
   "routes": [
@@ -12,14 +19,24 @@
       "dest": "api/server.js"
     },
     {
-      "src": "/(.*)",
-      "dest": "api/server.js"
-    }
-  ],
-  "rewrites": [
+      "src": "/static/(.*)",
+      "dest": "build/static/$1"
+    },
     {
-      "source": "/(.*)",
-      "destination": "/index.html"
+      "src": "/favicon.ico",
+      "dest": "build/favicon.ico"
+    },
+    {
+      "src": "/manifest.json",
+      "dest": "build/manifest.json"
+    },
+    {
+      "src": "/(.*)\\.(.+)",
+      "dest": "build/$1.$2"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "build/index.html"
     }
   ]
 } 

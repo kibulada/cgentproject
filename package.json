@@ -14,9 +14,9 @@
     "web-vitals": "^4.2.4"
   },
   "scripts": {
-    "start": "node api/server.js",
+    "start": "react-scripts start",
     "dev": "nodemon api/server.js",
-    "build": "npm install --production",
+    "build": "react-scripts build",
     "postinstall": "npm rebuild",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
